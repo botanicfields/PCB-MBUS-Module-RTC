@@ -19,7 +19,7 @@ PCF8563 RTC Module for M-Bus of M5Stack Basic/Gray
 - Core2 は RTC (BM8563) を内蔵しており、このモジュールを使用できません。
 - 電源スイッチへの配線が M-BUS に存在しないため、Core2 のような RTC による自動電源オンは実現できません。
 - 電池 (CR1220) の使用推奨期限は一般に 5 年です。
-- INT 信号、CLKO 信号は 3.3V に 10kΩ でプルアップしています。M5Stack から電力の供給がない状態で INT や CLKO をアクティブにすると電池が消耗します。ウェイクアップなど必要なとき以外は INT や CLKO をローレベルにしない配慮が必要です。
+- INT 信号、CLKO 信号は M5Stack の 3.3V に 10kΩ でプルアップしています。INT, CLKO がローレベルになると電力を消費します。省電力が重要な場合、ウェイクアップなど必要なとき以外はローレベルにしない配慮が必要です。
 - ディップスイッチの切り替えには、ピンセット等が必要です。
 - PROTO モジュール（別売、スイッチサイエンスSKU:3650）のモールドの取り外し・取り付けには、六角ドライバー (1.5mm) が必要です。
 
@@ -36,13 +36,13 @@ PCF8563 RTC Module for M-Bus of M5Stack Basic/Gray
 
 ## サンプルプログラム
 
-- M5Stack の LCD に、現在時刻を表示します。時刻は、RTC モジュールおよび NTP から取得します。
+- M5Stack の LCD に現在時刻を表示します。時刻は、RTC モジュールおよび NTP から取得します。
 - 起動時に Wi-Fi に接続します。Wi-Fi の設定には、tzapu/WiFiManager[^1]を使用しています。
 
 [^1]: [GitHub: tzapu: WiFiManager](https://github.com/tzapu/WiFiManager)
 
 - GPIO36 が LOW の場合 "CLKO" を表示します。CLKO には 1Hz を出力していて、ディップスイッチ 4 が ON の場合 "CLKO" が 1Hz で点滅します。
-- GPIO13/GPIO35 の HIGH から LOW への変化を捉えて "GPIO13"/"GPIO35" を 1 秒間表示します。INT にはタイマーにより 60秒 毎にパルスを出力します。ディップスイッチ 2/3 が ON の場合、60 秒毎に "GPIO13"/"GPIO35" が 1 秒間点灯します。この表示には、GPIO による割り込みを使用しています。
+- GPIO13/GPIO35 の HIGH から LOW への変化を捉えて "GPIO13"/"GPIO35" を 1 秒間表示します。INT にはタイマーにより 60秒 毎にパルスを出力します。ディップスイッチ 2/3 が ON の場合、60 秒毎に "GPIO13"/"GPIO35" が 1 秒間点灯します。この表示には GPIO による割り込みを使用しています。
 - 再起動した場合、シリアルモニターにリセット原因を表示します。ディップスイッチ 1 が ON の場合、60 秒毎にリセットが発生します。
 
 ## 参考
@@ -56,5 +56,3 @@ PCF8563 RTC Module for M-Bus of M5Stack Basic/Gray
 [^3]: [Qiita: M5Atom, M5Stack Core 用の I2C リアルタイムクロック基板を作って動かす](https://qiita.com/BotanicFields/items/dc35e12423be8f6e9b4e)
 
 [^4]: [Qiita: ESP32 において NTP の時刻同期を捕まえて RTC を更新する](https://qiita.com/BotanicFields/items/f1e28af5a63e4ccf7023)
-
-
