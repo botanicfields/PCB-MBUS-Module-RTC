@@ -5,8 +5,7 @@ PCF8563 RTC Module for M-Bus of M5Stack Basic/Gray
 
 　NXP 社の RTC PCF8563 を搭載した M-BUS モジュールです。RTC を内蔵していない M5Stack Basic, Gray などに使用できます。
 
-<img src="./image/front.jpg" width=300>
-<img src="./image/back.jpg" width=300>
+<img src="./image/front.jpg" width=300>!<img src="./image/back.jpg" width=300>
 
 ## 特徴
 - M5Stack 標準の I2C(SCL:GPIO22, SDA:GPIO21) からアクセスできます。
@@ -18,10 +17,8 @@ PCF8563 RTC Module for M-Bus of M5Stack Basic/Gray
 - PROTO モジュール（別売、スイッチサイエンスSKU:3650）のモールドを装着することで、他のモジュールやボトムを積み重ねる（スタックする）ことができます。
 - トリマコンデンサにより、水晶発振子（クリスタル）の周波数を微調整できます。出荷時には可能な範囲で調整済です。
 
-<img src="./image/module1.JPEG" width=300>
-<img src="./image/module2.JPEG" width=300>
-<img src="./image/basic1.jpg" width=300>
-<img src="./image/basic2.jpg" width=300>
+<img src="./image/module1.JPEG" width=300>!<img src="./image/module2.JPEG" width=300>
+<img src="./image/basic1.jpg" width=300>!<img src="./image/basic2.jpg" width=300>
 
 ## ご注意
 - Core2 は RTC (BM8563) を内蔵しており、このモジュールを使用できません。
@@ -33,9 +30,7 @@ PCF8563 RTC Module for M-Bus of M5Stack Basic/Gray
 - モールドを取り付けるとコイン電池の交換ができません。コイン電池を装着してからモールドを取り付けてください。
 
 <img src="./image/proto.jpg" width=300>
-<img src="./image/proto2.JPEG" width=300>
-<img src="./image/proto3.JPEG" width=300>
-<img src="./image/rtc.JPEG" width=300>
+<img src="./image/proto2.JPEG" width=300>!<img src="./image/proto3.JPEG" width=300>!<img src="./image/rtc.JPEG" width=300>
 
 ## ディップスイッチ
 
