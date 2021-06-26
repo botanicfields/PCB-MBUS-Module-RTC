@@ -50,6 +50,7 @@ void setup()
   SetTimeFromRtcx();
   M5.Lcd.print("Wi-Fi setup\n");
   WifiBegin();
+  WiFi.setSleep(false);  // https://macsbug.wordpress.com/2021/05/02/buttona-on-m5stack-does-not-work-properly/
   M5.Lcd.print("NTP setup\n");
   NtpBegin();
 

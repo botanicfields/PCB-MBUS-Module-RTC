@@ -29,8 +29,6 @@ PCF8563 RTC Module for M-Bus of M5Stack Basic/Gray
 - PROTO モジュール（別売、スイッチサイエンスSKU:3650）のモールドの取り外し・取り付けには、六角ドライバー (1.5mm) が必要です。
 - モールドを取り付けるとコイン電池の交換ができません。コイン電池を装着してからモールドを取り付けてください。
 
-<img src="./image/proto.jpg" width=300> <img src="./image/proto2.JPEG" width=300> <img src="./image/proto3.JPEG" width=300> <img src="./image/rtc.JPEG" width=300>
-
 ## ディップスイッチ
 
 | No. | RTC 出力 | ON 場合の M-Bus 接続先 | 用途 | |
@@ -38,29 +36,52 @@ PCF8563 RTC Module for M-Bus of M5Stack Basic/Gray
 | 1 | INT | EN | タイマーやアラームにより、M5Stack をリセットする(*1) |
 | 2 | INT | GPIO13 | ボトムのピンを消費することなく読み出し/割り込みを行う |
 | 3 | INT | GPIO35 | ボトムのピンから監視しながら、読み出し/割り込みを行う |
-| 4 | CLKO | GPIO36 | ボトムのピンからクロックを出力する |
+| 4 | CLKO | GPIO36 | ボトムのピンからクロックを出力する(*2) |
 
 (*1) タイマー設定やアラーム時刻設定により、M5Stack を強制的にリセットすることができます。稼働中の原因不明のハングやメモリーリークなどへの対策として定期的な再起動が必要な場合に利用できるかもしれません。強制リセットからの再起動に失敗する確率はゼロではなく、データ破壊もあり得るなど慎重な検討が必要です。
 
+(*2) ESP32 の問題で GPIO36（および GPIO39）にグリッチが発生します。回避策が以下に書かれています。
+
+macsbug: ButtonA on M5Stack does not work properly
+
+https://macsbug.wordpress.com/2021/05/02/buttona-on-m5stack-does-not-work-properly/
+
+## PROTO モジュールのモールドの流用
+
+<img src="./image/proto.jpg" width=300> <img src="./image/proto2.JPEG" width=300> <img src="./image/proto3.JPEG" width=300> <img src="./image/rtc.JPEG" width=300>
+
+## GPS で校正した周波数カウンタを用いた発振周波数の調整
+
+詳細は、botanicfields/PCB-RTC-PCF8563-for-M5 を参照ください。
+
+https://github.com/botanicfields/PCB-RTC-PCF8563-for-M5
+
+
+<img src="./image/gps.jpeg" width=300>
+
 ## サンプルプログラム
 
-- M5Stack の LCD に現在時刻を表示します。時刻は、RTC モジュールおよび NTP から取得します。
-- 起動時に Wi-Fi に接続します。Wi-Fi の設定には、tzapu/WiFiManager[^1]を使用しています。
+### BF-031.ino
 
-[^1]: [GitHub: tzapu: WiFiManager](https://github.com/tzapu/WiFiManager)
+- M5Stack の LCD に現在時刻を表示します。時刻は、RTC モジュールおよび NTP から取得します。
+- 起動時に Wi-Fi に接続します。Wi-Fi の設定には、tzapu/WiFiManager を使用しています。
+
+https://github.com/tzapu/WiFiManager
 
 - GPIO36 が LOW の場合 "CLKO" を表示します。CLKO には 1Hz を出力していて、ディップスイッチ 4 が ON の場合 "CLKO" が 1Hz で点滅します。
 - GPIO13/GPIO35 の HIGH から LOW への変化を捉えて "GPIO13"/"GPIO35" を 1 秒間表示します。INT にはタイマーにより 60秒 毎にパルスを出力します。ディップスイッチ 2/3 が ON の場合、60 秒毎に "GPIO13"/"GPIO35" が 1 秒間点灯します。この表示には GPIO による割り込みを使用しています。
 - 再起動した場合、シリアルモニターにリセット原因を表示します。ディップスイッチ 1 が ON の場合、60 秒毎にリセットが発生します。
 
-## 参考
+### BF-031.ino 以外のコードについては、以下を参照ください。
 
-- GitHub: botanicfields/PCB-RTC-PCF8563-for-M5[^2]
-- Qiita: M5Atom, M5Stack Core 用の I2C リアルタイムクロック基板を作って動かす[^3]
-- Qiita: ESP32 において NTP の時刻同期を捕まえて RTC を更新する[^4]
+- GitHub: botanicfields/PCB-RTC-PCF8563-for-M5
 
-[^2]: [GitHub: botanicfields: PCB-RTC-PCF8563-for-M5](https://github.com/botanicfields/PCB-RTC-PCF8563-for-M5)
+https://github.com/botanicfields/PCB-RTC-PCF8563-for-M5
 
-[^3]: [Qiita: M5Atom, M5Stack Core 用の I2C リアルタイムクロック基板を作って動かす](https://qiita.com/BotanicFields/items/dc35e12423be8f6e9b4e)
+- Qiita: M5Atom, M5Stack Core 用の I2C リアルタイムクロック基板を作って動かす
 
-[^4]: [Qiita: ESP32 において NTP の時刻同期を捕まえて RTC を更新する](https://qiita.com/BotanicFields/items/f1e28af5a63e4ccf7023)
+https://qiita.com/BotanicFields/items/dc35e12423be8f6e9b4e
+
+- Qiita: ESP32 において NTP の時刻同期を捕まえて RTC を更新する
+
+https://qiita.com/BotanicFields/items/f1e28af5a63e4ccf7023
