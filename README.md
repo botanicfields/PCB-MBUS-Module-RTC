@@ -61,7 +61,7 @@ https://github.com/botanicfields/PCB-RTC-PCF8563-for-M5
 
 ## サンプルプログラム
 
-### BF-031.ino
+### BF-031.ino, BF_M5StackTableClock.h, BF_M5StackTableClock.cpp
 
 - M5Stack の LCD に現在時刻を表示します。時刻は、RTC モジュールおよび NTP から取得します。
 - 起動時に Wi-Fi に接続します。Wi-Fi の設定には、tzapu/WiFiManager を使用しています。
@@ -72,7 +72,7 @@ https://github.com/tzapu/WiFiManager
 - GPIO13/GPIO35 の HIGH から LOW への変化を捉えて "GPIO13"/"GPIO35" を 1 秒間表示します。INT にはタイマーにより 60秒 毎にパルスを出力します。ディップスイッチ 2/3 が ON の場合、60 秒毎に "GPIO13"/"GPIO35" が 1 秒間点灯します。この表示には GPIO による割り込みを使用しています。
 - 再起動した場合、シリアルモニターにリセット原因を表示します。ディップスイッチ 1 が ON の場合、60 秒毎にリセットが発生します。
 
-### BF-031.ino 以外のコードについては、以下を参照ください。
+### 上記以外のコードについては、以下を参照ください。
 
 - GitHub: botanicfields/PCB-RTC-PCF8563-for-M5
 
