@@ -5,6 +5,9 @@ PCF8563 RTC Module for M-Bus of M5Stack Basic/Gray
 
 　NXP 社の RTC PCF8563 を搭載した M-BUS モジュールです。RTC を内蔵していない M5Stack Basic, Gray などに使用できます。
 
+委託販売（スイッチサイエンス）：  
+https://www.switch-science.com/catalog/7308/
+
 <img src="./image/front.jpg" width=300> <img src="./image/back.jpg" width=300>
 
 ## 特徴
