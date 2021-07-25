@@ -30,7 +30,7 @@ void print_reset_reason(RESET_REASON reason)
     case 11 : Serial.println("[ResetReason]TGWDT_CPU_RESET");         break;  // <11, Time Group reset CPU
     case 12 : Serial.println("[ResetReason]SW_CPU_RESET");            break;  // <12, Software reset CPU
     case 13 : Serial.println("[ResetReason]RTCWDT_CPU_RESET");        break;  // <13, RTC Watch dog Reset CPU
-    case 14 : Serial.println("[ResetReason]EXT_CPU_RESET");           break;  // <14, for APP CPU, reseted by PRO CPU
+    case 14 : Serial.println("[ResetReason]EXT_CPU_RESET");           break;  // <14, for APP CPU, resetted by PRO CPU
     case 15 : Serial.println("[ResetReason]RTCWDT_BROWN_OUT_RESET");  break;  // <15, Reset when the vdd voltage is not stable
     case 16 : Serial.println("[ResetReason]RTCWDT_RTC_RESET");        break;  // <16, RTC Watch dog reset digital core and rtc module
     default : Serial.println("[ResetReason]NO_MEAN");

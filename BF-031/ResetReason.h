@@ -11,8 +11,8 @@
 *  Author:
 *  Evandro Luis Copercini - 2017
 */
-#ifndef INCLUDED_RSET_REASON_H
-#define INCLUDED_RSET_REASON_H
+#ifndef INCLUDED_RESET_REASON_H
+#define INCLUDED_RESET_REASON_H
 
 #include <rom/rtc.h>
 
