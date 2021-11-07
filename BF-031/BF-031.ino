@@ -15,6 +15,15 @@ const int loop_ms(100);       // 100ms
 const int interval_ms(1000);  // 1sec
 int loop_last_ms(0);
 
+// for testing rtcx
+const bool enable_clko(true);
+const bool enable_int(true);
+const int  timer_10s(10);
+const int  timer_60s(60);
+const bool enable_interrupt(true);
+const bool pulse_mode(true);  // generate short pulse
+const bool keep_flag(true);   // every 60sec
+
 void setup()
 {
   const bool lcd_enable(true);
@@ -30,6 +39,7 @@ void setup()
   M5.Lcd.setTextDatum(TL_DATUM);
   M5.Lcd.setTextColor(TFT_WHITE, TFT_BLACK);
 
+  // to check resett by INT of RTCx PCF8563
   SerialLcdPrintln(TFT_WHITE, "Reset Reason CPU0:");
   SerialLcdPrintln(TFT_YELLOW, ResetReasonCpu0().c_str());
 //  SerialLcdPrintln(TFT_YELLOW, VerboseRestReasonCpu0().c_str());
@@ -37,6 +47,7 @@ void setup()
   SerialLcdPrintln(TFT_YELLOW, ResetReasonCpu1().c_str());
 //  SerialLcdPrintln(TFT_YELLOW, VerboseRestReasonCpu1().c_str());
 
+  // RTCx PCF8563: connect and start
   SerialLcdPrint(TFT_WHITE, "I2C, RTCx:");
   if (rtcx.Begin(Wire) == 0)
     SerialLcdPrintln(TFT_GREEN, "OK");
@@ -45,33 +56,30 @@ void setup()
   }
 
   // RTCx PCF8563: for adjusting trimmer capacitor
-  // comment out in consideration of power consumption
   SerialLcdPrint(TFT_WHITE, "Clock Out:");
-  if (rtcx.ClockOutForTrimmer() == 0)
+  if (rtcx.ClockOutForTrimmer(enable_clko) == 0)
     SerialLcdPrintln(TFT_GREEN, "OK");
   else
     SerialLcdPrintln(TFT_RED, "ERROR");
 
-  // RTCx PCF8563: timer interrupt
-  // comment out in consideration of power consumption
+  // RTCx PCF8563: timer
   SerialLcdPrint(TFT_WHITE, "Set timer:");
-  const int timer_sec(60);
-  double timer_return = rtcx.SetTimer(timer_sec);
+  double timer_return = rtcx.SetTimer(timer_10s);
   SerialLcdPrint(TFT_YELLOW, timer_return);
   if (timer_return != 0.0)
-    SerialLcdPrintln(TFT_GREEN, "OK");
+    SerialLcdPrintln(TFT_GREEN, " OK");
   else
-    SerialLcdPrintln(TFT_RED, "ERROR");
+    SerialLcdPrintln(TFT_RED, " ERROR");
+
+  // RTCx PCF8563: timer interrupt
   SerialLcdPrint(TFT_WHITE, "Enable Interrupt:");
-  const bool enable_interrupt(true);
-  const bool pulse_mode(true);  // generate short pulse
-  const bool keep_flag(true);   // every 60sec
   if (rtcx.EnableTimerInterrupt(enable_interrupt, pulse_mode, keep_flag) == 0)
     SerialLcdPrintln(TFT_GREEN, "OK");
   else
     SerialLcdPrintln(TFT_RED, "ERROR");
 
-  // SetTimeFromRtcx();
+  // RTCx PCF8563: set system time from RTCx
+//  SetTimeFromRtcx();
   SetTimeFromRtcxLcd();
 
   // set system time, connect Wi-Fi, start NTP
@@ -81,9 +89,17 @@ void setup()
   SerialLcdPrintln(TFT_WHITE, "NTP setup");
   NtpBegin();
 
+  // wait button-C to proceed into loop
   SerialLcdPrintln(TFT_CYAN, "Button-C to continue:");
   while (!M5.BtnC.wasReleased())
     M5.update();
+
+  // RTCx PCF8563: disable CLKO and INT
+  rtcx.ClockOutForTrimmer(!enable_clko);
+  rtcx.DisableTimer();
+  rtcx.DisableTimerInterrupt();
+
+  // start table-clock
   TableClockInit();
 
   // loop control
@@ -93,9 +109,25 @@ void setup()
 void loop()
 {
   M5.update();
-//  WifiProcess();
+  if (M5.BtnA.wasReleased()) {
+    // set period 1sec for CLKO
+    rtcx.ClockOutForTrimmer(enable_clko);
+  }
+  if (M5.BtnB.wasReleased()) {
+    // set timer of every 60sec for INT
+    rtcx.SetTimer(timer_60s);
+    rtcx.EnableTimerInterrupt(enable_interrupt, pulse_mode, keep_flag);
+  }
+  if (M5.BtnC.wasReleased()) {
+    // disable CLKO and INT
+    rtcx.ClockOutForTrimmer(!enable_clko);
+    rtcx.DisableTimer();
+    rtcx.DisableTimerInterrupt();
+  }
 
   TableClock();
+
+//  WifiProcess();
 
 //  Serial.println(millis() - loop_last_ms);  // to check process time
   delay(loop_ms + loop_last_ms - millis());
@@ -110,11 +142,12 @@ void SetTimeFromRtcxLcd()
   tzset();  // Assign the local timezone from setenv for mktime()
   SerialLcdPrint(TFT_WHITE, "Set time:");
   if (rtcx.ReadTime(&tm_init) == 0) {
+    SerialLcdPrintln(TFT_GREEN, "RTCx valid");
     struct timeval tv = { mktime(&tm_init), 0 };
     settimeofday(&tv, NULL);
-    SerialLcdPrintln(TFT_GREEN, "RTCx valid");
   }
   else {
+    SerialLcdPrintln(TFT_RED, "ERROR RTCx invalid");
     tm_init.tm_year = 120;  // 2020
     tm_init.tm_mon  = 0;    // January
     tm_init.tm_mday = 1;
@@ -123,7 +156,6 @@ void SetTimeFromRtcxLcd()
     tm_init.tm_sec  = 0;
     struct timeval tv = { mktime(&tm_init), 0 };
     settimeofday(&tv, NULL);
-    SerialLcdPrintln(TFT_RED, "ERROR RTCx invalid");
   }
   getLocalTime(&tm_init);
   char str[64];
