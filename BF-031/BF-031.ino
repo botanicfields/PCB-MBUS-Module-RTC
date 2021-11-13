@@ -91,8 +91,10 @@ void setup()
 
   // wait button-C to proceed into loop
   SerialLcdPrintln(TFT_CYAN, "Button-C to continue:");
-  while (!M5.BtnC.wasReleased())
+  while (!M5.BtnC.wasReleased()) {
     M5.update();
+    RtcxUpdate();
+  }
 
   // RTCx PCF8563: disable CLKO and INT
   rtcx.ClockOutForTrimmer(!enable_clko);
@@ -125,9 +127,9 @@ void loop()
     rtcx.DisableTimerInterrupt();
   }
 
-  TableClock();
-
 //  WifiProcess();
+  RtcxUpdate();
+  TableClock();
 
 //  Serial.println(millis() - loop_last_ms);  // to check process time
   delay(loop_ms + loop_last_ms - millis());

@@ -100,7 +100,6 @@ void TableClock()
     M5.Lcd.drawString("     ", 60, 175);
     rtcx_interrupt35_ms = millis();
   }
-
   if (rtcx_interrupt13) {
     M5.Lcd.drawString("INT13", 132, 175);
     rtcx_interrupt13 = false;

@@ -13,8 +13,7 @@
 *  Author:
 *  Evandro Luis Copercini - 2017
 */
-#ifndef INCLUDED_BF_RESET_REASON_H
-#define INCLUDED_BF_RESET_REASON_H
+#pragma once
 
 #include <rom/rtc.h>
 
@@ -24,5 +23,3 @@ String ResetReasonCpu0();
 String ResetReasonCpu1();
 String VerboseRestReasonCpu0();
 String VerboseRestReasonCpu1();
-
-#endif  // INCLUDED_BF_RESET_REASON_H
