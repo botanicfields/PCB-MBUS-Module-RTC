@@ -13,7 +13,7 @@
 // for loop control
 const int loop_ms(100);       // 100ms
 const int interval_ms(1000);  // 1sec
-int loop_last_ms(0);
+unsigned int loop_last_ms(0);
 
 // for testing rtcx
 const bool enable_clko(true);
