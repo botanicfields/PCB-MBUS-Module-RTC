@@ -18,8 +18,8 @@ unsigned int loop_last_ms(0);
 // for testing rtcx
 const bool enable_clko(true);
 const bool enable_int(true);
-const int  timer_10s(10);
-const int  timer_60s(60);
+const int  timer_interval(10);  // for RTC-INT-GPIO35/GPIO13 test
+//const int  timer_interval(60);  // for RTC-INT-EN test
 const bool enable_interrupt(true);
 const bool pulse_mode(true);  // generate short pulse
 const bool keep_flag(true);   // every 60sec
@@ -64,7 +64,7 @@ void setup()
 
   // RTCx PCF8563: timer
   SerialLcdPrint(TFT_WHITE, "Set timer:");
-  double timer_return = rtcx.SetTimer(timer_10s);
+  double timer_return = rtcx.SetTimer(timer_interval);
   SerialLcdPrint(TFT_YELLOW, timer_return);
   if (timer_return != 0.0)
     SerialLcdPrintln(TFT_GREEN, " OK");
@@ -117,7 +117,7 @@ void loop()
   }
   if (M5.BtnB.wasReleased()) {
     // set timer of every 60sec for INT
-    rtcx.SetTimer(timer_60s);
+    rtcx.SetTimer(timer_interval);
     rtcx.EnableTimerInterrupt(enable_interrupt, pulse_mode, keep_flag);
   }
   if (M5.BtnC.wasReleased()) {
