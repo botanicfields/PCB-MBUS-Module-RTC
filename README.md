@@ -64,7 +64,7 @@ https://github.com/botanicfields/PCB-RTC-PCF8563-for-M5
 
 ## サンプルプログラム
 
-### BF-031.ino, BF_M5StackTableClock.h, BF_M5StackTableClock.cpp
+### BF-031.ino
 
 - M5Stack の LCD に現在時刻を表示します。時刻は、RTC モジュールおよび NTP から取得します。
 - 起動時のリセット原因を表示します。ディップスイッチ 1 が ON の場合、60 秒毎にリセットが発生します。
@@ -90,3 +90,7 @@ https://qiita.com/BotanicFields/items/dc35e12423be8f6e9b4e
 - Qiita: ESP32 において NTP の時刻同期を捕まえて RTC を更新する
 
 https://qiita.com/BotanicFields/items/f1e28af5a63e4ccf7023
+
+- Qiita: ESP32のWiFiおよびtzapu/WiFiManagerにおいて回復処理を試行錯誤した
+
+https://qiita.com/BotanicFields/items/8a73101a8bfe51e57f67
