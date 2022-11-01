@@ -17,7 +17,8 @@ https://www.switch-science.com/catalog/7308/
 - コイン電池（別売: CR1220）により、M5Stack の電源がない状態でも時刻を保持し続けます。
 - RTC の INT（割り込み出力）をディップスイッチで M-Bus の EN, GPIO13, GPIO35 に接続できます。
 - RTC の CLKO（クロック出力）をディップスイッチで M-Bus の GPIO36 に接続できます。
-- PROTO モジュール（別売、スイッチサイエンスSKU:3650）のモールドを装着することで、他のモジュールやボトムを積み重ねる（スタックする）ことができます。
+- PROTO モジュールのモールド（別売）を装着することで、他のモジュールやボトムを積み重ねる（スタックする）ことができます。
+
 - トリマコンデンサにより、水晶発振子（クリスタル）の周波数を微調整できます。出荷時には可能な範囲で調整済です。
 
 <img src="./image/module1.JPEG" width=300> <img src="./image/module2.JPEG" width=300>
@@ -29,7 +30,7 @@ https://www.switch-science.com/catalog/7308/
 - 電池 (CR1220) の使用推奨期限は一般に 5 年です。
 - INT 信号、CLKO 信号は M5Stack の 3.3V に 10kΩ でプルアップしています。INT, CLKO がローレベルになると電力を消費します。省電力が重要な場合、ウェイクアップなど必要なとき以外はローレベルにしない配慮が必要です。
 - ディップスイッチの切り替えには、ピンセット等が必要です。
-- PROTO モジュール（別売、スイッチサイエンスSKU:3650）のモールドの取り外し・取り付けには、六角ドライバー (1.5mm) が必要です。
+- PROTO モジュールのモールド（別売）の取り外し・取り付けには、六角ドライバー (1.5mm) が必要です。
 - [V01L01] モールドを取り付けるとコイン電池の交換ができません。コイン電池を装着してからモールドを取り付けてください。
 
 ## ディップスイッチ
@@ -50,6 +51,10 @@ macsbug: ButtonA on M5Stack does not work properly
 https://macsbug.wordpress.com/2021/05/02/buttona-on-m5stack-does-not-work-properly/
 
 ## PROTO モジュールのモールドの流用
+### モールドの入手先（スイッチサイエンス扱い）
+
+- [M5Stackプロトモジュール用プラスチックフレーム（2個入）](https://www.switch-science.com/collections/m5stack/products/8450)
+- [M5Stack用プロトモジュール [M001]](https://www.switch-science.com/collections/m5stack/products/3650)
 
 <img src="./image/proto.jpg" width=300> <img src="./image/proto2.JPEG" width=300> <img src="./image/proto3.JPEG" width=300> <img src="./image/rtc.JPEG" width=300>
 
